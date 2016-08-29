@@ -35,7 +35,7 @@
 bachelor thesis in mathematics with the topic
 "Torsion in <img src="http://www.sciweavers.org/tex2img.php?eq=%5CGamma%20%28%5Cpi_2%20K%29%20%2F%20%5Cpi_1%20K&amp;bc=White&amp;fc=Black&amp;im=jpg&amp;fs=12&amp;ff=arev&amp;edit=0" alt="equation">".</p>
 
-<p>The PDF can be found here: ...</p>
+<p>The PDF can be found <a href="https://github.com/ben300694/torsion-in-gamma/blob/master/pdfs/20160605_bachelorthesis_torsion_in_gamma.pdf">here</a>.</p>
 
 <p>Author:
 Benjamin Ruppik (University of Bonn)</p>
@@ -61,6 +61,31 @@ Navigate there in your terminal, this directory should contain the file <code>ma
 
 <p>Now start SageMath in command line mode by typing <code>sage</code>,
 then load the main file via <code>attach('main.sage')</code>.</p>
+
+<p>The input for most of the relevant functions is the presentation of a finite, finitely presented group.
+See the corresponding <a href="http://doc.sagemath.org/html/en/reference/groups/sage/groups/finitely_presented.html">SageMath documentation</a>
+on how to enter such a presentation.</p>
+
+<p>The function you probably want to use is</p>
+
+<div class="highlight highlight-source-python"><pre>test_with_logging_and_progress(grouppresentation, grouppresentation_string)</pre></div>
+
+<p>Suppose <code>G</code> is a finitely presented group, then you would call this function as</p>
+
+<div class="highlight highlight-source-python"><pre>test_with_logging_and_progress(<span class="pl-c1">G</span>, <span class="pl-s"><span class="pl-pds">"</span>meaningful_name_for_G<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>The function call creates two new files in the directory:</p>
+
+<ul>
+<li>
+<code>meaningful_name_for_G_output.txt</code> contains the results.</li>
+<li>
+<code>meaningful_name_for_G_progress.txt</code> is updated live to reflect the progress the program has made.</li>
+</ul>
+
+<p>For examples see the bachelor thesis.</p>
+
+<p><strong>The program might take a very long time to process some group presentations, please be patient.</strong></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/ben300694">ben300694</a></p>
