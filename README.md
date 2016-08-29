@@ -15,11 +15,12 @@ Dr. Daniel Kasprowski and
 Prof. Dr. Peter Teichner
 (Max Planck Institute for Mathematics in Bonn)
 
-
 This is the Git-repository for publishing the
 bachelor thesis and the Sage-code.
 
-The relevant Sage-code is in the directory src/.
+## Instructions
+
+The relevant Sage code is in the directory `src/`.
 
 Use it by starting Sage in command line mode,
-then attach the main file via "attach('main.sage')".
+then load the main file via `attach('main.sage')`.
