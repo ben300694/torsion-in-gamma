@@ -4,7 +4,7 @@ This code was written for the
 bachelor thesis in mathematics with the topic
 "Torsion in ![equation](http://www.sciweavers.org/tex2img.php?eq=%5CGamma%20%28%5Cpi_2%20K%29%20%2F%20%5Cpi_1%20K&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)".
 
-The PDF can be found [here](https://raw.github.com/ben300694/torsion-in-gamma/pdfs/20160605_bachelorthesis_torsion_in_gamma.pdf).
+The PDF can be found [here](https://github.com/ben300694/torsion-in-gamma/blob/master/pdfs/20160605_bachelorthesis_torsion_in_gamma.pdf).
 
 Author:
 Benjamin Ruppik (University of Bonn)
