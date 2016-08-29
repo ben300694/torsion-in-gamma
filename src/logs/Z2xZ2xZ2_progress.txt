@@ -1,0 +1,60 @@
+2016-08-14 15:11:40 starting pi_2 calculation 
+
+2016-08-14 15:11:41 finished pi_2 calculation 
+
+rank_Z (pi_2 K) = 31 and thus rank_Z (Gamma pi_2 K) = 496
+
+2016-08-14 15:11:41 calling matrix_of_surjection function 
+
+2016-08-14 15:11:41 generating subspace of symmetric matrices (this might take a long time, no progress shown in between)
+2016-08-14 15:11:53 finished with subspace of symmetric matrices 
+
+2016-08-14 15:11:53 calling tensors_identified_with_zero 
+
+2016-08-14 15:11:53 tensors_identified_with_zero preparations
+2016-08-14 15:11:54 tensors_identified_with_zero starting with tensors of the form m \otimes m
+2016-08-14 15:11:55 tensors_identified_with_zero finished with tensors of the form m \otimes m
+2016-08-14 15:11:55 tensors_identified_with_zero starting with tensors of the form m \otimes n + n \otimes m
+2016-08-14 15:11:55 in outer loop 0 of 31
+2016-08-14 15:11:57 in outer loop 1 of 31
+2016-08-14 15:11:59 in outer loop 2 of 31
+2016-08-14 15:12:01 in outer loop 3 of 31
+2016-08-14 15:12:03 in outer loop 4 of 31
+2016-08-14 15:12:04 in outer loop 5 of 31
+2016-08-14 15:12:06 in outer loop 6 of 31
+2016-08-14 15:12:08 in outer loop 7 of 31
+2016-08-14 15:12:09 in outer loop 8 of 31
+2016-08-14 15:12:11 in outer loop 9 of 31
+2016-08-14 15:12:12 in outer loop 10 of 31
+2016-08-14 15:12:13 in outer loop 11 of 31
+2016-08-14 15:12:15 in outer loop 12 of 31
+2016-08-14 15:12:16 in outer loop 13 of 31
+2016-08-14 15:12:17 in outer loop 14 of 31
+2016-08-14 15:12:18 in outer loop 15 of 31
+2016-08-14 15:12:19 in outer loop 16 of 31
+2016-08-14 15:12:20 in outer loop 17 of 31
+2016-08-14 15:12:21 in outer loop 18 of 31
+2016-08-14 15:12:22 in outer loop 19 of 31
+2016-08-14 15:12:22 in outer loop 20 of 31
+2016-08-14 15:12:23 in outer loop 21 of 31
+2016-08-14 15:12:24 in outer loop 22 of 31
+2016-08-14 15:12:24 in outer loop 23 of 31
+2016-08-14 15:12:25 in outer loop 24 of 31
+2016-08-14 15:12:25 in outer loop 25 of 31
+2016-08-14 15:12:25 in outer loop 26 of 31
+2016-08-14 15:12:26 in outer loop 27 of 31
+2016-08-14 15:12:26 in outer loop 28 of 31
+2016-08-14 15:12:26 in outer loop 29 of 31
+2016-08-14 15:12:26 in outer loop 30 of 31
+2016-08-14 15:12:26 tensors_identified_with_zero finished with tensors of the form m \otimes n + n \otimes m
+
+2016-08-14 15:12:26 tensors_identified_with_zero returned 
+
+2016-08-14 15:12:26 calculating coordinates from list of tensors (this might take a long time, no progress shown in between)
+2016-08-14 15:34:12 finished with coordinates from list of tensors 
+
+2016-08-14 15:34:12 matrix_of_surjection function returned 
+
+2016-08-14 15:34:12 beginning with invariant factors from matrix (this might take a long time, no progress shown in between) 
+2016-08-14 15:35:19 finished with invariant factors from matrix 
+

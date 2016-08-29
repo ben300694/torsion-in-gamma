@@ -1,0 +1,28 @@
+# IPython log file
+
+# Sat, 04 Jun 2016 12:33:59
+attach("main.sage")
+# Sat, 04 Jun 2016 12:33:59
+sage.repl.load.load(sage.repl.load.base64.b64decode("bWFpbi5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:00
+sage.repl.load.load(sage.repl.load.base64.b64decode("cGlfMi5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:00
+sage.repl.load.load(sage.repl.load.base64.b64decode("dXRpbC5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:00
+sage.repl.load.load(sage.repl.load.base64.b64decode("Z2FtbWEuc2FnZQ=="),globals(),True)
+# Sat, 04 Jun 2016 12:34:00
+sage.repl.load.load(sage.repl.load.base64.b64decode("dG9yc2lvbi5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:00
+sage.repl.load.load(sage.repl.load.base64.b64decode("dXRpbC5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:00
+sage.repl.load.load(sage.repl.load.base64.b64decode("ZXhhbXBsZXMvWm4uc2FnZQ=="),globals(),True)
+# Sat, 04 Jun 2016 12:34:01
+sage.repl.load.load(sage.repl.load.base64.b64decode("ZXhhbXBsZXMvWmtebi5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:01
+sage.repl.load.load(sage.repl.load.base64.b64decode("ZXhhbXBsZXMvRG4uc2FnZQ=="),globals(),True)
+# Sat, 04 Jun 2016 12:34:01
+sage.repl.load.load(sage.repl.load.base64.b64decode("dGVzdHMvdGVzdF9zdWl0ZS5zYWdl"),globals(),True)
+# Sat, 04 Jun 2016 12:34:01
+sage.repl.load.load(sage.repl.load.base64.b64decode("dGVzdHMvdGVzdF93aXRoX2xvZ2dpbmcuc2FnZQ=="),globals(),True)
+# Sat, 04 Jun 2016 12:34:26
+test_Z2xZ2xZ3()

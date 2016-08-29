@@ -1,0 +1,15 @@
+# IPython log file
+
+attach("main.sage")
+pi_2(Z2xZ2)
+#[Out]# Free module of degree 12 and rank 7 over Integer Ring
+#[Out]# Echelon basis matrix:
+#[Out]# [ 1  0  0 -1  0  0  0  0  0  0  1  1]
+#[Out]# [ 0  1  0 -1  0  0  0  0  0  0  1  1]
+#[Out]# [ 0  0  1 -1  0  0  0  0  0  0  0  0]
+#[Out]# [ 0  0  0  0  1  0  0 -1  0 -1  0 -1]
+#[Out]# [ 0  0  0  0  0  1  0 -1  0  0  0  0]
+#[Out]# [ 0  0  0  0  0  0  1 -1  0 -1  0 -1]
+#[Out]# [ 0  0  0  0  0  0  0  0  1  1  1  1]
+# Tue, 07 Jun 2016 12:32:25
+test_Z2xZ8()
