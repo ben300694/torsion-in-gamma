@@ -184,9 +184,12 @@ def matrix_of_surjection_use_just_generators_with_progress(grouppresentation, fi
     list_of_tensors_len = len(list_of_tensors)
     file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' the list_of_tensors has length ' + str(list_of_tensors_len) + ' \n')
     
-    # Split the list_of_tensors into chunks of length n
-    n = 200
-    chunks = [list_of_tensors[i:i + n] for i in xrange(0, len(list_of_tensors), n)]
+    # Split the list_of_tensors into chunks of length n = list_of_tensors_len/planned_no_of_chunks or if this is less than 200
+    # into chunks of length 200
+    planned_no_of_chunks = 30
+    list_of_tensors_len = len(list_of_tensors)    
+    n = max(list_of_tensors_len // planned_no_of_chunks, 200)
+    chunks = [list_of_tensors[i:i + n] for i in xrange(0, list_of_tensors_len, n)]
     total_no_of_chunks = len(chunks)    
 
     # Call the Sym_coordinates function on each chunk (this executes in parallel)
