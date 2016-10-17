@@ -182,17 +182,34 @@ def matrix_of_surjection_use_just_generators_with_progress(grouppresentation, fi
     file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' calculating coordinates from list of tensors \n')
 
     list_of_tensors_len = len(list_of_tensors)
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' the list_of_tensors has length ' + str(list_of_tensors_len) + ' \n')        
-    columns_coordinates = []
-    for (i, x) in enumerate(list_of_tensors):
-        file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' entry ' + str(i+1) + ' of ' + str(list_of_tensors_len) + ' \n')
-        y = Sym.coordinates(tensor_to_list(x))
-        columns_coordinates.append(y)
+    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' the list_of_tensors has length ' + str(list_of_tensors_len) + ' \n')
+    
+    # Split the list_of_tensors into chunks of length n
+    n = 200
+    chunks = [list_of_tensors[i:i + n] for i in xrange(0, len(list_of_tensors), n)]
+    total_no_of_chunks = len(chunks)    
 
+    # Call the Sym_coordinates function on each chunk (this executes in parallel)
+    r = Sym_coordinates([(chunk, Sym, file_progress, j+1, total_no_of_chunks) for (j, chunk) in enumerate(chunks)])    
+    list_columns_coordinates = []
+    for x in r:
+        list_columns_coordinates.append(x[1])
+    columns_coordinates = [item for sublist in list_columns_coordinates for item in sublist] 
 
     file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished with coordinates from list of tensors \n')
     
     return matrix(ZZ, columns_coordinates).transpose()
+
+
+@parallel
+def Sym_coordinates(list_of_tensors, subspace, file_progress, no_of_chunk, total_no_of_chunks):
+    list_of_tensors_len = len(list_of_tensors)    
+    result = []
+    for (i, x) in enumerate(list_of_tensors):
+        file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' entry ' + str(i+1) + ' of ' + str(list_of_tensors_len) + ' in chunk ' + str(no_of_chunk) + ' of ' + str(total_no_of_chunks) + '\n')
+        y = subspace.coordinates(tensor_to_list(x))
+        result.append(y)
+    return result
 
 
 #
