@@ -188,7 +188,7 @@ def matrix_of_surjection_use_just_generators_with_progress(grouppresentation, fi
     # into chunks of length 200
     planned_no_of_chunks = 30
     list_of_tensors_len = len(list_of_tensors)    
-    n = max(list_of_tensors_len // planned_no_of_chunks, 200)
+    n = max((list_of_tensors_len // planned_no_of_chunks) + 1, 200)
     chunks = [list_of_tensors[i:i + n] for i in xrange(0, list_of_tensors_len, n)]
     total_no_of_chunks = len(chunks)    
 
