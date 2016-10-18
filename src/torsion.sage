@@ -31,59 +31,29 @@ def subspace_of_symmetric_matrices(n):
     basis_vectors = map(matrix_to_list, basis_for_symmetric_matrices(n))
     return span(basis_vectors, ZZ)
 
-def tensors_identified_with_zero(grouppresentation):
-    """    
-    To caculate the quotient of the pi_1-action on pi_2
-    we need to find the map
-    ZZ^(rk(Gamma(M))*ord(G)) ---> Gamma(M) = {symmetric rk(M) x rk(M) - matrices}
-    """
-    H_2 = pi_2(grouppresentation)
-
-    perm = grouppresentation.as_permutation_group()
-    Z_perm = GroupAlgebra(perm, ZZ)
-    groupelements_in_algebra = map(Z_perm, perm.list())
-    groupelements_in_algebra_as_matrix = map(lambda x: x.to_matrix(side='left'), groupelements_in_algebra)
-    
-    free_module = FiniteRankFreeModule(ZZ, H_2.rank())
-    f = free_module.basis('f')
-
-    tensors = []
-    
-    # the tensors of the form m \otimes m
-    for m in H_2.basis():
-        for g in groupelements_in_algebra_as_matrix[1:]:
-            # We need to calculate m \otimes m - g*(m \otimes m)
-                t = diagonal_tensor(m, H_2, free_module) - image_of_diagonal_tensor(g, m, H_2, free_module)
-                tensors.append(t)
-    
-    # the tensors of the form m \otimes n + n \otimes m
-    for (i, m) in enumerate(H_2.basis()):
-        for j in range(i+1, len(H_2.basis())):
-            n = H_2.basis()[j]
-            for g in groupelements_in_algebra_as_matrix[1:]:
-                # We need to calculate m \otimes n + n \otimes m - g*(m \otimes n + n \otimes m)                
-                t = other_tensor(m, n, H_2, free_module) - image_of_other_tensor(g, m, n, H_2, free_module)
-                tensors.append(t)
-
-    return tensors
-
-def tensors_identified_with_zero_use_just_generators(grouppresentation):
+def tensors_identified_with_zero_use_just_generators(grouppresentation, progress=False, f_progress=None):
     """
     The same as tensors_identified_with_zero(grouppresentation),
     but only iterates over the generators of the group
-    """    
+    """
+    if progress == True:    
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' tensors_identified_with_zero preparations\n')
+
     H_2 = pi_2(grouppresentation)
     perm = grouppresentation.as_permutation_group()
     Z_perm = GroupAlgebra(perm, ZZ)
     groupgens_in_algebra = map(Z_perm, perm.gens())
     groupgens_in_algebra_as_matrix = map(lambda x: x.to_matrix(side='left'), groupgens_in_algebra)
-    # print groupgens_in_algebra_as_matrix    
 
     free_module = FiniteRankFreeModule(ZZ, H_2.rank())
     f = free_module.basis('f')
-
-    tensors = []
     
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' tensors_identified_with_zero starting with tensors of the form m \otimes m\n')
+    
+    tensors = []
     # the tensors of the form m \otimes m
     for m in H_2.basis():
         for g in groupgens_in_algebra_as_matrix:
@@ -91,101 +61,61 @@ def tensors_identified_with_zero_use_just_generators(grouppresentation):
                 t = diagonal_tensor(m, H_2, free_module) - image_of_diagonal_tensor(g, m, H_2, free_module)
                 tensors.append(t)
     
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' tensors_identified_with_zero finished with tensors of the form m \otimes m\n')
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' tensors_identified_with_zero starting with tensors of the form m \otimes n + n \otimes m\n')
+    
     # the tensors of the form m \otimes n + n \otimes m
     for (i, m) in enumerate(H_2.basis()):
+        if progress == True:
+            f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+                ' in outer loop ' + str(i+1) + ' of ' + str(H_2.rank()) + '\n')
         for j in range(i+1, len(H_2.basis())):
             n = H_2.basis()[j]
             for g in groupgens_in_algebra_as_matrix:
                 # We need to calculate m \otimes n + n \otimes m - g*(m \otimes n + n \otimes m)                
                 t = other_tensor(m, n, H_2, free_module) - image_of_other_tensor(g, m, n, H_2, free_module)
                 tensors.append(t)
+    
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' tensors_identified_with_zero finished with tensors of the form m \otimes n + n \otimes m\n')
 
     return tensors
 
-def tensors_identified_with_zero_use_just_generators_with_progress(grouppresentation, file_progress):
-    """
-    The same as tensors_identified_with_zero(grouppresentation),
-    but only iterates over the generators of the group
-    """
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' tensors_identified_with_zero preparations\n')
-        
-    H_2 = pi_2(grouppresentation)
-    perm = grouppresentation.as_permutation_group()
-    Z_perm = GroupAlgebra(perm, ZZ)
-    groupgens_in_algebra = map(Z_perm, perm.gens())
-    groupgens_in_algebra_as_matrix = map(lambda x: x.to_matrix(side='left'), groupgens_in_algebra)
-    # print groupgens_in_algebra_as_matrix    
 
-    free_module = FiniteRankFreeModule(ZZ, H_2.rank())
-    f = free_module.basis('f')
-
-    tensors = []
-    
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' tensors_identified_with_zero starting with tensors of the form m \otimes m\n')
-    # the tensors of the form m \otimes m
-    for m in H_2.basis():
-        for g in groupgens_in_algebra_as_matrix:
-            # We need to calculate m \otimes m - g*(m \otimes m)
-                t = diagonal_tensor(m, H_2, free_module) - image_of_diagonal_tensor(g, m, H_2, free_module)
-                tensors.append(t)
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' tensors_identified_with_zero finished with tensors of the form m \otimes m\n')
-    
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' tensors_identified_with_zero starting with tensors of the form m \otimes n + n \otimes m\n')
-    # the tensors of the form m \otimes n + n \otimes m
-    for (i, m) in enumerate(H_2.basis()):
-        file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' in outer loop ' + str(i+1) + ' of ' + str(H_2.rank()) + '\n')
-        for j in range(i+1, len(H_2.basis())):
-            n = H_2.basis()[j]
-            for g in groupgens_in_algebra_as_matrix:
-                # We need to calculate m \otimes n + n \otimes m - g*(m \otimes n + n \otimes m)                
-                t = other_tensor(m, n, H_2, free_module) - image_of_other_tensor(g, m, n, H_2, free_module)
-                tensors.append(t)
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' tensors_identified_with_zero finished with tensors of the form m \otimes n + n \otimes m\n')
-
-    return tensors
-
-def matrix_of_surjection(grouppresentation):
-    """
-    Gives a matrix representation of the map from
-    a free module to Gamma(pi_2)
-    that sends each basis element to one of the tensors identified
-    with zero
-    """
-    M = pi_2(grouppresentation)   
-    Sym = subspace_of_symmetric_matrices(M.rank())
-    list_of_tensors = tensors_identified_with_zero(grouppresentation)
-
-    # Just write the coefficients of the linear combination
-    # as the columns
-    columns_coordinates = map(lambda x: Sym.coordinates(tensor_to_list(x)), list_of_tensors)
-    return matrix(ZZ, columns_coordinates).transpose()
-
-def matrix_of_surjection_use_just_generators(grouppresentation):
-    M = pi_2(grouppresentation)   
-    Sym = subspace_of_symmetric_matrices(M.rank())
-    list_of_tensors = tensors_identified_with_zero_use_just_generators(grouppresentation)
-
-    columns_coordinates = map(lambda x: Sym.coordinates(tensor_to_list(x)), list_of_tensors)
-    return matrix(ZZ, columns_coordinates).transpose()
-
-def matrix_of_surjection_use_just_generators_with_progress(grouppresentation, file_progress):
+def matrix_of_surjection_use_just_generators(grouppresentation, progress=False, use_c_code=False, f_progress=None):
     M = pi_2(grouppresentation)   
     
-    file_progress.write('\n' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' generating subspace of symmetric matrices (this might take a long time, no progress shown in between)\n')    
+    if progress == True:
+        f_progress.write('\n' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' generating subspace of symmetric matrices (this might take a long time, no progress shown in between)\n')    
+    
     Sym = subspace_of_symmetric_matrices(M.rank())
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished with subspace of symmetric matrices \n\n')
-
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' calling tensors_identified_with_zero \n\n')
-    list_of_tensors = tensors_identified_with_zero_use_just_generators_with_progress(grouppresentation, file_progress)
-    file_progress.write('\n' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' tensors_identified_with_zero returned \n\n')
-
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' calculating coordinates from list of tensors \n')
+    
+    if progress == True:    
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' finished with subspace of symmetric matrices \n\n')
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' calling tensors_identified_with_zero \n\n')
+    
+    list_of_tensors = tensors_identified_with_zero_use_just_generators(grouppresentation, progress, f_progress)
+    
+    if progress == True:    
+        f_progress.write('\n' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' tensors_identified_with_zero returned \n\n')
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' calculating coordinates from list of tensors \n')
 
     list_of_tensors_len = len(list_of_tensors)
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' the list_of_tensors has length ' + str(list_of_tensors_len) + ' \n')
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' the list_of_tensors has length ' + str(list_of_tensors_len) + ' \n')
     
-    # Split the list_of_tensors into chunks of length n = list_of_tensors_len/planned_no_of_chunks or if this is less than 200
-    # into chunks of length 200
+    # Split the list_of_tensors into chunks of length n = list_of_tensors_len/planned_no_of_chunks 
+    # or if this is less than 200 into chunks of length 200
     planned_no_of_chunks = 30
     list_of_tensors_len = len(list_of_tensors)    
     n = max((list_of_tensors_len // planned_no_of_chunks) + 1, 200)
@@ -193,32 +123,36 @@ def matrix_of_surjection_use_just_generators_with_progress(grouppresentation, fi
     total_no_of_chunks = len(chunks)    
 
     # Call the Sym_coordinates function on each chunk (this executes in parallel)
-    r = Sym_coordinates([(chunk, Sym, file_progress, j+1, total_no_of_chunks) for (j, chunk) in enumerate(chunks)])    
+    r = Sym_coordinates([(chunk, Sym, j+1, total_no_of_chunks, progress, f_progress) for (j, chunk) in enumerate(chunks)])    
     list_columns_coordinates = []
     for x in r:
         list_columns_coordinates.append(x[1])
     columns_coordinates = [item for sublist in list_columns_coordinates for item in sublist] 
-
-    file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished with coordinates from list of tensors \n')
+    
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' finished with coordinates from list of tensors \n')
     
     return matrix(ZZ, columns_coordinates).transpose()
 
-
 @parallel
-def Sym_coordinates(list_of_tensors, subspace, file_progress, no_of_chunk, total_no_of_chunks):
+def Sym_coordinates(list_of_tensors, subspace, no_of_chunk, total_no_of_chunks, progress=False, f_progress=None):
     list_of_tensors_len = len(list_of_tensors)    
+    
     result = []
     for (i, x) in enumerate(list_of_tensors):
-        file_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' entry ' + str(i+1) + ' of ' + str(list_of_tensors_len) + ' in chunk ' + str(no_of_chunk) + ' of ' + str(total_no_of_chunks) + '\n')
+        if progress == True:
+            f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+                ' entry ' + str(i+1) + ' of ' + str(list_of_tensors_len) + \
+                ' in chunk ' + str(no_of_chunk) + ' of ' + str(total_no_of_chunks) + '\n')
         y = subspace.coordinates(tensor_to_list(x))
         result.append(y)
+    
     return result
 
 
-#
 # Test to see if removing the abstraction of the tensor product
 # increases the performance
-#
 
 def tensors_identified_with_zero_as_matrices(grouppresentation):
     H_2 = pi_2(grouppresentation)
@@ -313,4 +247,62 @@ def struc(grouppresentation):
 
 def has_tors(grouppresentation):
     return has_torsion_in_gamma_pi_2_quotient_gap_use_just_generators(grouppresentation)
+
+# Deprecated
+def matrix_of_surjection_use_just_generators_with_progress(grouppresentation, f_progress):
+    return matrix_of_surjection_use_just_generators(grouppresentation, progress=True, use_c_code=False, f_progress=f_progress)
+
+def tensors_identified_with_zero_use_just_generators_with_progress(grouppresentation, f_progress):
+    return tensors_identified_with_zero_use_just_generators(grouppresentation, progress=True, f_progress=f_progress)
+
+def tensors_identified_with_zero(grouppresentation):
+    """    
+    To caculate the quotient of the pi_1-action on pi_2
+    we need to find the map
+    ZZ^(rk(Gamma(M))*ord(G)) ---> Gamma(M) = {symmetric rk(M) x rk(M) - matrices}
+    """
+    H_2 = pi_2(grouppresentation)
+
+    perm = grouppresentation.as_permutation_group()
+    Z_perm = GroupAlgebra(perm, ZZ)
+    groupelements_in_algebra = map(Z_perm, perm.list())
+    groupelements_in_algebra_as_matrix = map(lambda x: x.to_matrix(side='left'), groupelements_in_algebra)
     
+    free_module = FiniteRankFreeModule(ZZ, H_2.rank())
+    f = free_module.basis('f')
+
+    tensors = []
+    
+    # the tensors of the form m \otimes m
+    for m in H_2.basis():
+        for g in groupelements_in_algebra_as_matrix[1:]:
+            # We need to calculate m \otimes m - g*(m \otimes m)
+                t = diagonal_tensor(m, H_2, free_module) - image_of_diagonal_tensor(g, m, H_2, free_module)
+                tensors.append(t)
+    
+    # the tensors of the form m \otimes n + n \otimes m
+    for (i, m) in enumerate(H_2.basis()):
+        for j in range(i+1, len(H_2.basis())):
+            n = H_2.basis()[j]
+            for g in groupelements_in_algebra_as_matrix[1:]:
+                # We need to calculate m \otimes n + n \otimes m - g*(m \otimes n + n \otimes m)                
+                t = other_tensor(m, n, H_2, free_module) - image_of_other_tensor(g, m, n, H_2, free_module)
+                tensors.append(t)
+
+    return tensors
+
+def matrix_of_surjection(grouppresentation):
+    """
+    Gives a matrix representation of the map from
+    a free module to Gamma(pi_2)
+    that sends each basis element to one of the tensors identified
+    with zero
+    """
+    M = pi_2(grouppresentation)   
+    Sym = subspace_of_symmetric_matrices(M.rank())
+    list_of_tensors = tensors_identified_with_zero(grouppresentation)
+
+    # Just write the coefficients of the linear combination
+    # as the columns
+    columns_coordinates = map(lambda x: Sym.coordinates(tensor_to_list(x)), list_of_tensors)
+    return matrix(ZZ, columns_coordinates).transpose()

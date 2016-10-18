@@ -4,11 +4,11 @@ in the test of a group presentation G
 """
 from datetime import datetime
 
-# For logging Sage call
-# logstart -o -t Z2xZ2xZ4_log
+# For logging SageMath call
+#     logstart -o -t SageMath_log
 # before running the test
 
-def test_with_logging(grouppresentation, grouppresentation_string):    
+def test(grouppresentation, grouppresentation_string="default", progress=True, use_c_code=False):
     """
     INPUT:
         :grouppresentation: The presentation of a finite, finitely presented group
@@ -25,63 +25,71 @@ def test_with_logging(grouppresentation, grouppresentation_string):
         After starting the function Sage can be left unsupervised,
         all the relevant results are saved. 
     """
-    gp_string=grouppresentation_string    
-    f = file(gp_string + '_output.txt','w')
-    f.write(str(grouppresentation) + '\n\n')
+        
+    gp_string=grouppresentation_string
     
-    f.write(str(second_boundary_matrix(grouppresentation)) + '\n\n')
-    
-    H_2=pi_2(grouppresentation)
-    f.write(str(H_2) + '\n\n')
-    f.write(H_2.matrix().str() + '\n\n')
-
-    f.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' beginning to calculate the matrix \n\n')
-    AA = matrix_of_surjection_use_just_generators(grouppresentation)
-    f.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished to calculate the matrix \n\n')    
-    save(AA, gp_string + '_matrix_of_surjection.sobj')
-    f.write(str(AA) + '\n\n')
-    
-    f.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' beginning with invariant factors from matrix \n\n')
-    inv_factors = structure_from_matrix_gap(AA)    
-    f.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished with invariant factors from matrix \n\n')
-    save(inv_factors, gp_string + '_structure.sobj')
-    f.write(str(inv_factors) + '\n\n')
-    
-    f.close()
-
-def test_with_logging_and_progress(grouppresentation, grouppresentation_string):
-    gp_string=grouppresentation_string    
     f_output = file(gp_string + '_output.txt','w')
-    # The argument '1' for the open method sets the file to be line buffered
-    f_progress = file(gp_string + '_progress.txt', 'w', 1)
+    f_progress = None    
+    if progress == True:    
+        # The argument '1' for the open method sets the file to be line buffered
+        f_progress = file(gp_string + '_progress.txt', 'w', 1)
     
     f_output.write(str(grouppresentation) + '\n\n')
     f_output.write(str(second_boundary_matrix(grouppresentation)) + '\n\n')
     
-    f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' starting pi_2 calculation \n\n')
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' starting pi_2 calculation \n\n')
+    
     H_2=pi_2(grouppresentation)
     f_output.write(str(H_2) + '\n\n')
     f_output.write(H_2.matrix().str() + '\n\n')    
     
-    H_2_rk = H_2.rank()
-    Gamma_rk = H_2_rk*(H_2_rk+1)/2
-    f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished pi_2 calculation \n\n')
-    f_progress.write('rank_Z (pi_2 K) = ' + str(H_2_rk) + ' and thus rank_Z (Gamma pi_2 K) = ' + str(Gamma_rk) + '\n\n')
-
-    f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' calling matrix_of_surjection function \n')
-    AA = matrix_of_surjection_use_just_generators_with_progress(grouppresentation, f_progress)
-    f_progress.write('\n' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' matrix_of_surjection function returned \n\n')    
-    save(AA, gp_string + '_matrix_of_surjection.sobj')
-    #f_output.write(str(AA) + '\n\n')
+    if progress == True:
+        H_2_rk = H_2.rank()
+        Gamma_rk = H_2_rk*(H_2_rk+1)/2
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' finished pi_2 calculation \n\n')
+        f_progress.write('rank_Z (pi_2 K) = ' + str(H_2_rk) + \
+            ' and thus rank_Z (Gamma pi_2 K) = ' + str(Gamma_rk) + '\n\n')
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' calling matrix_of_surjection function \n')
     
-    f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' beginning with invariant factors from matrix (this might take a long time, no progress shown in between) \n')
+    AA = matrix_of_surjection_use_just_generators(grouppresentation, progress=progress, use_c_code=use_c_code, f_progress=f_progress)
+    
+    if progress == True:
+        f_progress.write('\n' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' matrix_of_surjection function returned \n\n')
+    
+    save(AA, gp_string + '_matrix_of_surjection.sobj')
+    # Uncommenting this line might crash the program because
+    # it tries to write a large matrix
+    # f_output.write(str(AA) + '\n\n')
+    
+    if progress == True:
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' beginning with invariant factors from matrix (this might take a long time, no progress shown in between) \n')
+    
     inv_factors = structure_from_matrix_gap(AA)    
-    f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished with invariant factors from matrix \n\n')
+    
+    if progress == True:    
+        f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + \
+            ' finished with invariant factors from matrix \n\n')
+    
     save(inv_factors, gp_string + '_structure.sobj')
     f_output.write(str(inv_factors) + '\n\n')
     
     f_output.close()
-    f_progress.close()
+    if progress == True:
+        f_progress.close()
+
+
+# These (deprecated) functions stay to ensure backwards compatibility
+def test_with_logging(grouppresentation, grouppresentation_string="default"):    
+    return test(grouppresentation, grouppresentation_string, progress=False, use_c_code=False)
+
+def test_with_logging_and_progress(grouppresentation, grouppresentation_string):
+    return test(grouppresentation, grouppresentation_string, progress=True, use_c_code=False)
 
 
 # Specializations for some example groups
