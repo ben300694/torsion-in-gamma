@@ -56,6 +56,11 @@ The function call creates two new files in the directory:
 
 For more examples see the bachelor thesis.
 
-**The program might take a very long time to process some group presentations, please be patient.
-The program will be optimized in the future to use multithreading.
-**
+**The program might take a very long time to process some group presentations, please be patient.**
+You can use the terminal command `tail -f "meaningful_name_for_G_progress.txt"`
+to check up on the progress of the calculation.
+
+## Plans for the future
+
+- [x] Implement basic multithreading functionality
+- [ ] Write critical parts of the program in C or another more efficient language to speed up the process
