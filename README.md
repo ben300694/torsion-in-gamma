@@ -36,18 +36,26 @@ on how to enter such a presentation.
 
 The function you probably want to use is
 ```python
-test_with_logging_and_progress(grouppresentation, grouppresentation_string)
+test(grouppresentation, grouppresentation_string="default", progress=True, use_c_code=False)
 ```
 
 Suppose `G` is a finitely presented group, then you would call this function as
 ```python
-test_with_logging_and_progress(G, "meaningful_name_for_G")
+test(G, "meaningful_name_for_G")
+```
+
+For example if you want to test the standard presentation of the cyclic group with 5 elements
+you would call
+```python
+test(cyclic_group(5), "Z5")
 ```
 
 The function call creates two new files in the directory:
 - `meaningful_name_for_G_output.txt` contains the results.
 - `meaningful_name_for_G_progress.txt` is updated live to reflect the progress the program has made.
 
-For examples see the bachelor thesis.
+For more examples see the bachelor thesis.
 
-**The program might take a very long time to process some group presentations, please be patient.**
+**The program might take a very long time to process some group presentations, please be patient.
+The program will be optimized in the future to use multithreading.
+**
