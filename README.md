@@ -43,16 +43,15 @@ Suppose `G` is a finitely presented group, then you would call this function as
 ```python
 test(G, "meaningful_name_for_G")
 ```
+The function call creates two new files in the directory:
+- `meaningful_name_for_G_output.txt` contains the results.
+- `meaningful_name_for_G_progress.txt` is updated live to reflect the progress the program has made.
 
 For example if you want to test the standard presentation of the cyclic group with 5 elements
 you would call
 ```python
 test(cyclic_group(5), "Z5")
 ```
-
-The function call creates two new files in the directory:
-- `meaningful_name_for_G_output.txt` contains the results.
-- `meaningful_name_for_G_progress.txt` is updated live to reflect the progress the program has made.
 
 For more examples see the bachelor thesis.
 
