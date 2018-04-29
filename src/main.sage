@@ -2,8 +2,6 @@
 Main document to combine all the other modules and for testing purposes
 Attach this to sage via the command "attach('main.sage')" to use all the functions
 
-Author: Benjamin Ruppik (University of Bonn)
-Date: June 2016
 """
 
 # load the parts of the algorithm
@@ -13,9 +11,10 @@ attach("torsion.sage")
 attach("util.sage")
 
 # load all the files containing examples of groups
-attach("examples/Zn.sage")
-attach("examples/Zk^n.sage")
-attach("examples/Dn.sage")
+attach("examples/Zmodn.sage")
+attach("examples/(Zmodk)^n.sage")
+attach("examples/D_n.sage")
+attach("examples/Q_8n.sage")
 
 # load the tests
 attach("tests/test_suite.sage")
