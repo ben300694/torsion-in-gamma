@@ -78,7 +78,16 @@ def test_with_logging_and_progress(grouppresentation, grouppresentation_string):
     inv_factors = structure_from_matrix_gap(AA)    
     f_progress.write(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S') + ' finished with invariant factors from matrix \n\n')
     save(inv_factors, gp_string + '_structure.sobj')
+    f_output.write("Invariant factors: \n\n")
     f_output.write(str(inv_factors) + '\n\n')
+    
+    result = contains_element_not_zero_or_one(inv_factors)
+    if result == False:
+        f_output.write("Gamma(pi_2(G)/(pi_1 G): No torsion found \n")
+        f_output.write("Gamma(pi_2(G)/(pi_1 G)) isomorphic to Z^" + str(count(0, inv_factors)) + "\n")
+    else:
+        f_output.write("Gamma(pi_2(G)/(pi_1 G): Has torsion \n")
+    f_output.write("----------- done ----------- \n")
     
     f_output.close()
     f_progress.close()

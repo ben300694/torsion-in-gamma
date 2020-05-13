@@ -1,0 +1,18 @@
+ssh into remote box
+
+type
+screen 
+then start the process you want
+
+For loading the correct sage version:
+module switch sage/7.6
+
+Press Ctrl-A then Ctrl-D. 
+This will detach your screen session but leave your processes running.
+You can now log out of the remote box.
+
+If you want to come back later, log on again and type screen -r.
+This will resume your screen session, and you can see the output of your process.
+
+Source:
+https://medium.com/@arnab.k/how-to-keep-processes-running-after-ending-ssh-session-c836010b26a3

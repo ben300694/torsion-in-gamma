@@ -56,3 +56,8 @@ def test_dihedral_groups(limit=12):
 
 def run_test():
     test_list_of_groups(list_of_groups_example)
+
+
+def test_dihedral_with_logging():
+    for n in range(19, 25):
+        test_with_logging_and_progress(dihedral_group(n), "D"+str(n))
